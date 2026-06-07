@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Suivi Congés Maladie</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@600;700;800&family=Mulish:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!-- ══ PAGE DE GARDE ══ -->
+<div class="landing" id="landing">
+  <div class="landing-bg"></div>
+  <div class="landing-content">
+    <div class="landing-logo-wrap">
+      <img src="ESCA.png" alt="Logo ESCA" class="landing-logo"
+           onerror="this.style.display='none';document.getElementById('logo-fallback').style.display='flex'">
+      <div class="landing-logo-fallback" id="logo-fallback" style="display:none">
+        <svg viewBox="0 0 80 80" fill="none">
+          <circle cx="40" cy="40" r="38" stroke="#e2ac33" stroke-width="3"/>
+          <path d="M40 14C25.64 14 14 25.64 14 40s11.64 26 26 26 26-11.64 26-26S54.36 14 40 14zm0 8v16l9.5 5.7-2.2 3.6L36 40V22H40z" fill="#e2ac33"/>
+        </svg>
+      </div>
+    </div>
+    <div class="landing-separator"></div>
+    <h1 class="landing-title">Suivi des Congés Maladie</h1>
+    <p class="landing-mention">Réalisé par la cellule TPN</p>
+    <button class="landing-btn" onclick="enterApp()">
+      <span>Accéder à l'outil</span>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+  </div>
+</div>
+
+<div class="app" id="main-app" style="display:none">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 22 22" fill="none"><path d="M11 2C6.03 2 2 6.03 2 11s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 3.5v6l3.8 2.3-.9 1.4-4.4-2.7V5.5H11z" fill="#e2ac33"/></svg>
+      </div>
+      <span class="brand-title">Suivi Congés Maladie</span>
+    </div>
+    <div class="mode-badge" id="mode-badge">
+      <span class="mode-dot"></span>
+      <span class="mode-label" id="mode-label">En activité</span>
+    </div>
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('saisie',this)">Saisie</button>
+      <button class="tab" onclick="switchTab('dashboard',this)">Dashboard</button>
+    </div>
+  </div>
+
+  <!-- PANEL SAISIE -->
+  <div class="panel active" id="panel-saisie">
+
+    <div class="basculement-alert" id="basculement-alert" style="display:none">
+      <div class="bascule-icon">⚠</div>
+      <div>
+        <div class="bascule-title">Basculement en position de non-activité</div>
+        <div class="bascule-sub" id="bascule-sub">180 jours atteints sur 12 mois calendaires.</div>
+      </div>
+    </div>
+
+    <div class="card frise-card">
+      <div class="card-header">
+        <div class="card-title">
+          <span class="card-title-bar"></span>
+          Frise chronologique
+          <span class="frise-total-label" id="frise-total-label"></span>
+        </div>
+      </div>
+
+      <!--
+        FRISE — architecture en couches superposées :
+        ┌─────────────────────────────────────────────────┐  frise-scroll-outer (scroll molette)
+        │ ┌───────────────────────────────────────────┐   │  frise-inner (largeur SVG)
+        │ │  SVG congés (z=1, pointer-events=all)     │   │
+        │ │  ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─  │   │
+        │ │  DRAG ZONE (z=2, moitié basse)            │   │  capte drag du bloc
+        │ │  BLOC GLISSANT (z=3, pointer-events:none) │   │  ne bloque pas les hover SVG
+        │ └───────────────────────────────────────────┘   │
+        └─────────────────────────────────────────────────┘
+      -->
+      <div class="frise-scroll-outer" id="frise-outer">
+        <div class="frise-inner" id="frise-inner">
+          <!-- SVG des congés -->
+          <div id="frise-svg-wrap"></div>
+          <!-- Zone de drag invisible : moitié basse, z-index 2 -->
+          <div id="frise-drag-zone" style="display:none"></div>
+          <!-- Bloc glissant : pointer-events:none → le SVG dessous reçoit les hover -->
+          <div class="glissant-bloc" id="glissant-bloc" style="display:none">
+            <div class="glissant-label left"  id="glissant-label-left">—</div>
+            <div class="glissant-label right" id="glissant-label-right">—</div>
+            <div class="glissant-center-info">
+              <div class="glissant-inner-label">365 j</div>
+              <div class="glissant-cumul" id="glissant-cumul">— j dans la fenêtre</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LÉGENDE — sous la frise -->
+      <div class="frise-legend-row">
+        <span class="legend-item"><span class="tl-dot" style="background:#e2ac33"></span>Congé maladie</span>
+        <span class="legend-item"><span class="tl-dot" style="background:#153272;opacity:.5"></span>Aujourd'hui</span>
+        <span class="legend-item" id="legend-bloc" style="display:none"><span class="tl-dot" style="background:rgba(226,172,51,0.2);border:1.5px solid #e2ac33"></span>Fenêtre 365 j <em>(glisser zone basse)</em></span>
+        <span class="legend-item"><span class="tl-dot" style="background:#c0392b"></span>Seuil 180 j</span>
+      </div>
+
+      <!-- TOOLTIP -->
+      <div class="frise-tip" id="ftip" style="display:none">
+        <div class="tip-label"  id="tip-label"></div>
+        <div class="tip-dates"  id="tip-dates"></div>
+        <hr class="tip-divider">
+        <div class="tip-glissante-label">Dans la fenêtre glissante</div>
+        <div class="tip-glissante-row">
+          <span class="tip-days" id="tip-days">0</span>
+          <span class="tip-unit">j</span>
+        </div>
+        <div class="tip-glissante-info" id="tip-info"></div>
+      </div>
+
+      <!-- MÉTRIQUES 2 colonnes sous la frise -->
+      <div class="frise-metrics">
+        <div class="frise-metric">
+          <div class="fm-label" id="fm-cumul-label">Max sur 365 j</div>
+          <div class="fm-value" id="fm-cumul">0 j</div>
+        </div>
+        <div class="frise-metric" id="fm-col2">
+          <div class="fm-label" id="fm-col2-label">Avant basculement</div>
+          <div class="fm-value ok" id="fm-col2-value">180 j</div>
+          <div class="fm-sub"  id="fm-col2-sub"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FORMULAIRE -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title"><span class="card-title-bar"></span><span id="form-title">Saisir un congé maladie</span></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Date de début</label>
+          <input type="date" id="entry-d1" oninput="clearErr()">
+        </div>
+        <div class="form-group">
+          <label>Date de fin</label>
+          <input type="date" id="entry-d2" oninput="clearErr()">
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom:12px">
+        <label>Motif (optionnel)</label>
+        <input type="text" id="entry-motif" placeholder="ex : hospitalisation, pathologie…">
+      </div>
+      <div class="error-msg" id="err-msg"></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:4px">
+        <button class="btn-add" id="btn-add" onclick="addEntry()">
+          <span class="btn-add-dot">+</span>Enregistrer l'arrêt
+        </button>
+        <button class="btn-cancel" id="btn-cancel-edit" onclick="cancelEdit()" style="display:none">
+          Annuler
+        </button>
+      </div>
+    </div>
+
+    <button class="btn-reset" onclick="resetAll()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M3 6h18M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+      Remise à zéro
+    </button>
+
+  </div><!-- /panel-saisie -->
+
+  <!-- PANEL DASHBOARD -->
+  <div class="panel" id="panel-dashboard">
+
+    <div class="alert alert-red"    id="alert-180" style="display:none">
+      <svg class="alert-ico" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="#c0392b" stroke-width="1.5"/><path d="M9 5v4.5" stroke="#c0392b" stroke-width="1.8" stroke-linecap="round"/><circle cx="9" cy="12.5" r="1" fill="#c0392b"/></svg>
+      <div><div class="alert-txt" id="alert-180-txt">Seuil de 180 jours dépassé — Non-activité</div><div class="alert-sub">Action requise immédiatement.</div></div>
+    </div>
+    <div class="alert alert-purple" id="alert-150" style="display:none">
+      <svg class="alert-ico" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="#6d3bb5" stroke-width="1.5"/><path d="M9 5v4.5" stroke="#6d3bb5" stroke-width="1.8" stroke-linecap="round"/><circle cx="9" cy="12.5" r="1" fill="#6d3bb5"/></svg>
+      <div><div class="alert-txt">Seuil de 150 jours atteint</div><div class="alert-sub">Surveillance renforcée nécessaire.</div></div>
+    </div>
+    <div class="alert alert-orange" id="alert-120" style="display:none">
+      <svg class="alert-ico" viewBox="0 0 18 18" fill="none"><path d="M9 2L16.5 15H1.5L9 2z" stroke="#c47a0a" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 7v4" stroke="#c47a0a" stroke-width="1.8" stroke-linecap="round"/><circle cx="9" cy="13" r="1" fill="#c47a0a"/></svg>
+      <div><div class="alert-txt">120 jours de congé maladie dépassés</div><div class="alert-sub">Surveillance recommandée.</div></div>
+    </div>
+
+    <div class="metric-grid">
+      <div class="metric">
+        <div class="metric-stripe" id="ms1"></div>
+        <div class="metric-label">Max sur 365 j glissants</div>
+        <div class="metric-value" id="mv1">0 j</div>
+        <div class="metric-sub" id="mv1-sub">Aucun arrêt</div>
+      </div>
+      <div class="metric">
+        <div class="metric-stripe green" id="ms2"></div>
+        <div class="metric-label">Restants / 120 j</div>
+        <div class="metric-value green" id="mv2">120 j</div>
+        <div class="metric-sub">avant seuil orange</div>
+      </div>
+      <div class="metric">
+        <div class="metric-stripe green" id="ms3"></div>
+        <div class="metric-label">Restants / 180 j</div>
+        <div class="metric-value green" id="mv3">180 j</div>
+        <div class="metric-sub">avant non-activité</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><div class="card-title"><span class="card-title-bar"></span>Progression vers 180 j</div></div>
+      <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+      <div class="prog-row"><span id="prog-l">0 j</span><span>180 j</span></div>
+      <div class="prog-note" id="prog-note">Aucun congé maladie enregistré.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header" style="margin-bottom:16px">
+        <div class="card-title"><span class="card-title-bar"></span>Arrêts enregistrés</div>
+        <button class="btn-reset" onclick="resetAll()" style="padding:7px 14px;font-size:11px;margin-top:0">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M3 6h18M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+          Tout supprimer
+        </button>
+      </div>
+      <div id="entry-list"><div class="empty-state">Aucun arrêt saisi.</div></div>
+      <div class="trash-container" style="margin-top:14px">
+        <button class="trash-toggle" onclick="toggleTrash()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+          Corbeille <span class="trash-count" id="trash-count">0</span>
+        </button>
+        <div class="trash-list" id="trash-list"></div>
+      </div>
+    </div>
+
+  </div><!-- /panel-dashboard -->
+</div><!-- /app -->
+<script src="script.js"></script>
+</body>
+</html>

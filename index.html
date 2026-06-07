@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tudor CABINIUC — Intégrateur Multimédia & Designer</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+  
+  <div class="tide-orb tide-orb-1"></div>
+  <div class="tide-orb tide-orb-2"></div>
+  <div class="tide-orb tide-orb-3"></div>
+
+  <canvas id="wave-canvas"></canvas>
+
+  <nav id="main-nav">
+    <a href="#accueil" class="nav-logo">Tudor CABINIUC</a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#accueil">Accueil</a></li>
+      <li><a href="#apropos">À propos</a></li>
+      <li><a href="#competences">Compétences</a></li>
+      <li><a href="#projets">Projets</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="nav-burger" id="nav-burger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <section id="accueil">
+    <p class="hero-tag">— Intégrateur Multimédia &amp; Designer</p>
+    <h1 class="hero-title">
+      Analyser,<br>
+      <em>créer,</em>
+      <span class="wave-word">intégrer.</span>
+    </h1>
+    <p class="hero-sub">
+      Concepteur visuel et intégrateur multimédia, je façonne des expériences numériques à la croisée du design, du motion et de la pédagogie. Du pixel à l'interaction, chaque projet est une marée qui façonne son rivage.
+    </p>
+    <div class="hero-actions">
+      <a href="#projets" class="hero-cta">
+        Découvrir mes projets
+        <svg width="16" height="10" viewBox="0 0 16 10" fill="none">
+          <path d="M1 5h14M10 1l5 4-5 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <a href="https://1drv.ms/b/c/e305b12371fe1e7d/IQCmY-m-V1ZoTqeSrxu-3CkqAWyK5CJFuHoAab7WDxpqfdg?e=YerfXW" class="hero-cta hero-cta--secondary" target="_blank" rel="noopener noreferrer">
+        Voir mon CV
+      </a>
+    </div>
+    <div class="hero-scroll-hint">
+      <span>Défiler</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <section id="apropos">
+    <div class="about-media reveal">
+      <div class="about-img-frame">
+<img src="img/tudor.jpg" alt="Tudor CABINIUC — Intégrateur Multimédia">
+      </div>
+      <div class="about-accent-box">
+        <div class="stat">2025</div>
+        <div class="stat-label">Bachelor Webmarketing — MyDigitalSchool</div>
+      </div>
+    </div>
+
+    <div class="about-content reveal">
+      <p class="section-label">// À propos</p>
+      <h2 class="section-title">
+        Deux univers,<br>
+        <em>une seule vision.</em>
+      </h2>
+      <p class="about-text">
+        J'ai 20 ans et je navigue entre deux mondes complémentaires : la création visuelle et l'ingénierie pédagogique. Diplômé d'un BUT MMI à Elbeuf–Rouen, je poursuis aujourd'hui un Bachelor Webmarketing &amp; Social Media à MyDigitalSchool (Caen).
+      </p>
+      <p class="about-text">
+        En parallèle, je mets mes compétences au service de l'<strong style="color:var(--foam);font-weight:500;">École des Spécialités du Commissariat des Armées</strong> en tant qu'intégrateur multimédia au sein de la cellule pédagogique — un terrain d'application unique où la créativité rencontre la rigueur.
+      </p>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <span class="timeline-year">2025 →</span>
+          <div class="timeline-info">
+            <strong>Bachelor Webmarketing &amp; Social Media</strong>
+            <span>MyDigitalSchool — Caen | En alternance</span>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-year">2023–25</span>
+          <div class="timeline-info">
+            <strong>Intégrateur Multimédia — École des Spécialités du Commissariat des Armées</strong>
+            <span>Cellule pédagogique</span>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-year">2021–23</span>
+          <div class="timeline-info">
+            <strong>BUT Métiers du Multimédia et de l'Internet</strong>
+            <span>IUT d'Elbeuf — Université de Rouen</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="interests">
+        <span class="interest-tag">📷 Photographie</span>
+        <span class="interest-tag">🚵 Gravel</span>
+        <span class="interest-tag">🎬 Cinéma</span>
+        <span class="interest-tag">🎮 Jeux Vidéo</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="competences">
+    <div class="skills-header reveal">
+      <div>
+        <p class="section-label">// Compétences</p>
+        <h2 class="section-title">Mon <em>arsenal</em><br>créatif &amp; technique.</h2>
+      </div>
+      <p class="skills-intro">
+        De la captation au rendu final, je maîtrise l'intégralité de la chaîne de création — du motion design à l'architecture de modules pédagogiques interactifs.
+      </p>
+    </div>
+
+    <div class="skills-grid">
+
+      <div class="skill-card reveal">
+        <span class="skill-icon">🎬</span>
+        <div class="skill-name">Montage Vidéo</div>
+        <p class="skill-desc">Narration visuelle et rythme. Du rush brut au master final, chaque coupe est une décision créative.</p>
+        <div class="skill-tools">
+          <span class="skill-tool">Premiere Pro</span>
+          <span class="skill-tool">After Effects</span>
+          <span class="skill-tool">Media Encoder</span>
+        </div>
+        <div class="skill-bar-wrap"><div class="skill-bar-fill" data-width="90%"></div></div>
+      </div>
+
+      <div class="skill-card reveal">
+        <span class="skill-icon">✦</span>
+        <div class="skill-name">Motion Design</div>
+        <p class="skill-desc">Donner vie aux idées par le mouvement. Animation, compositing et expressions pour des visuels qui ne laissent pas indifférent.</p>
+        <div class="skill-tools">
+          <span class="skill-tool">After Effects</span>
+        </div>
+        <div class="skill-bar-wrap"><div class="skill-bar-fill" data-width="82%"></div></div>
+      </div>
+
+      <div class="skill-card reveal">
+        <span class="skill-icon">◈</span>
+        <div class="skill-name">Design Graphique</div>
+        <p class="skill-desc">Identité visuelle, typographie et composition. Des créations qui communiquent avant même d'être lues.</p>
+        <div class="skill-tools">
+          <span class="skill-tool">Photoshop</span>
+          <span class="skill-tool">Illustrator</span>
+          <span class="skill-tool">InDesign</span>
+        </div>
+        <div class="skill-bar-wrap"><div class="skill-bar-fill" data-width="88%"></div></div>
+      </div>
+
+      <div class="skill-card reveal">
+        <span class="skill-icon">⬡</span>
+        <div class="skill-name">Webmarketing</div>
+        <p class="skill-desc">Stratégie digitale, acquisition et analyse de performances pour des campagnes engageantes et mesurables.</p>
+        <div class="skill-tools">
+          <span class="skill-tool">Google Analytics</span>
+          <span class="skill-tool">Google Ads</span>
+          <span class="skill-tool">Semrush</span>
+        </div>
+        <div class="skill-bar-wrap"><div class="skill-bar-fill" data-width="85%"></div></div>
+      </div>
+
+      <div class="skill-card reveal">
+        <span class="skill-icon">⌨</span>
+        <div class="skill-name">Communication</div>
+        <p class="skill-desc">Création de contenus et messages clairs pour renforcer la présence de marque et la qualité des relations publiques.</p>
+        <div class="skill-tools">
+          <span class="skill-tool">Rédaction</span>
+          <span class="skill-tool">Community Management</span>
+          <span class="skill-tool">Canva</span>
+        </div>
+        <div class="skill-bar-wrap"><div class="skill-bar-fill" data-width="75%"></div></div>
+      </div>
+
+      <div class="skill-card reveal">
+        <span class="skill-icon">📷</span>
+        <div class="skill-name">Photographie</div>
+        <p class="skill-desc">Capturer la lumière, figer l'instant. Un œil formé à la composition et à la narration photographique.</p>
+        <div class="skill-tools">
+          <span class="skill-tool">Lightroom</span>
+        </div>
+        <div class="skill-bar-wrap"><div class="skill-bar-fill" data-width="78%"></div></div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="projets">
+    <div class="projects-header reveal">
+      <p class="section-label">// Projets</p>
+      <h2 class="section-title">Réalisations <em>&amp; travaux.</em></h2>
+      <div class="projects-filter">
+        <button class="filter-btn active" data-filter="all">Tout</button>
+        <button class="filter-btn" data-filter="motion">Motion Design</button>
+        <button class="filter-btn" data-filter="video">Vidéo</button>
+        <button class="filter-btn" data-filter="elearning">E-Learning</button>
+        <button class="filter-btn" data-filter="webmarketing">Webmarketing</button>
+        <button class="filter-btn" data-filter="communication">Communication</button>
+      </div>
+    </div>
+
+    <div class="projects-grid">
+
+<div class="project-card" data-cat="elearning">
+  <div class="project-card-bg" style="background-image: url('img/api_conges_maladie.png');"></div>
+  
+  <div class="project-overlay">
+    <span class="project-cat">E-learning</span>
+    <h3 class="project-title">API Congés maladies</h3>
+    <p class="project-desc">Création d'une interface utilisateur pédagogique pour comprendre l'année glissante des congés maladies.</p>
+    
+    <a href="api_conges_maladie/index.html" class="project-link" target="_blank">Voir le projet →</a>
+  </div>
+</div>
+
+      <div class="project-card" data-cat="communication">
+        <div class="project-card-bg" style="background-image: url('img/cinema_leselect.png');"></div>
+        <div class="project-overlay">
+          <span class="project-cat">Communication</span>
+          <h3 class="project-title">Stage Cinéma Le Select Granville</h3>
+          <p class="project-desc">Nouvelle direction artistique pour le cinéma | Stratégie de communication | Création de contenu | Gestion des réseaux sociaux</p>
+          <a href="https://univrouenfr-my.sharepoint.com/:b:/g/personal/tudor_cabiniuc_univ-rouen_fr/IQDNXf46xN-cSbZimYqhrU5pAYE3CioC2fKElF69Ig7M4kE?e=37vUib" class="project-link">Voir →</a>
+        </div>
+      </div>
+
+      <div class="project-card" data-cat="webmarketing">
+<div class="project-card-bg" style="background-image: url('img/astraios.png');"></div>
+        <div class="project-overlay">
+          <span class="project-cat">Webmarketing</span>
+          <h3 class="project-title">Analyse et recommandations</h3>
+          <p class="project-desc">Réalisation d'une analyse approfondie et de recommandations pour le lancement d'une nouvelle application en collaboration avec une strat-up de Caen d'une durée de 6 mois.</p>
+          <a href="#" class="project-link">Voir →</a>
+        </div>
+      </div>
+
+      <div class="project-card" data-cat="motion">
+        <div class="project-card-bg" style="background-image: url('img/photo_bilbea.jpeg');"></div>
+        <div class="project-overlay">
+          <span class="project-cat">Motion</span>
+          <h3 class="project-title">Immersion Professionnelle au Village by CA à Rouen</h3>
+          <p class="project-desc">Immersion Professionnelle au Village by CA à Rouen</p>
+          <a href="https://univrouenfr-my.sharepoint.com/:v:/g/personal/tudor_cabiniuc_univ-rouen_fr/IQBEqldZpKeIQ6u4MwW_Zg2gARaTIDSstYeZPpoapp59J8U?e=ufzzWP" class="project-link">Voir →</a>
+        </div>
+      </div>
+
+      <div class="project-card" data-cat="elearning">
+        <div class="project-card-bg" style="background-image: url('img/we_are_frame.jpg');"></div>
+        <div class="project-card-bg"></div>
+        <div class="project-overlay">
+          <span class="project-cat">Serious Game</span>
+          <h3 class="project-title">We are Frame</h3>
+          <p class="project-desc">Sérious game réalisé lors d'une semaine dédié à l'anglais. Construisez votre wireframe, frayez vous un chemin entre les virus, les défis et les cryptomonnaies</p>
+          <a href="https://www.youtube.com/watch?v=cSlYjg9PznY" class="project-link">Voir →</a>
+        </div>
+      </div>
+
+      <div class="project-card" data-cat="video">
+<div class="project-card-bg" style="background-image: url('img/we_are_frame.jpg');"></div>
+        <div class="project-overlay">
+          <span class="project-cat">Court-métrage, inspiration constructivisme</span>
+          <h3 class="project-title">Du Pied Gauche</h3>
+          <p class="project-desc">Sound Design, Montage, Scénario, Mise en scène</p>
+          <a href="https://youtu.be/pu3etau6qec" class="project-link">Voir →</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="contact-wave-top">
+      <svg viewBox="0 0 1440 120" preserveAspectRatio="none" fill="none">
+        <path d="M0,40 C360,120 1080,0 1440,80 L1440,0 L0,0 Z" fill="rgba(0,119,182,0.06)"/>
+        <path d="M0,70 C360,10 1080,110 1440,30 L1440,0 L0,0 Z" fill="rgba(0,180,216,0.04)"/>
+      </svg>
+    </div>
+
+    <p class="contact-eyebrow reveal"> — J'ai attisé votre curiosité ?</p>
+    <h2 class="contact-title reveal">Faisons<br><em>quelque chose</em><br>ensemble.</h2>
+    <p class="contact-sub reveal">
+      Vous avez un projet créatif, un module à concevoir, une vidéo à monter ? Parlons-en autour d'un café virtuel.
+    </p>
+    <div class="contact-actions reveal">
+      <a href="mailto:tcabiniuc.pro@gmail.com" class="btn-primary">M'écrire un message</a>
+      <a href="https://www.linkedin.com/in/tudor-cabiniuc/" target="_blank" rel="noopener" class="btn-secondary">LinkedIn</a>
+    </div>
+  </section>
+
+  <footer>
+    <p class="footer-copy">© 2025 — Tudor CABINIUC . Tous droits réservés.</p>
+    <ul class="footer-links">
+      <li><a href="https://www.linkedin.com/in/tudor-cabiniuc/" target="_blank">LinkedIn</a></li>
+      <li><a href="mailto:tcabiniuc.pro@gmail.com">Email</a></li>
+    </ul>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    document.querySelectorAll('a[href]').forEach(link => {
+      link.target = '_blank';
+      const relValues = new Set((link.rel || '').split(' ').filter(Boolean));
+      relValues.add('noopener');
+      relValues.add('noreferrer');
+      link.rel = Array.from(relValues).join(' ');
+    });
+  </script>
+</body>
+</html>
