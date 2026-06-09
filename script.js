@@ -19,7 +19,7 @@ function animateRing() {
 }
 animateRing();
 
-document.querySelectorAll('a, button, .project-card, .skill-card').forEach(el => {
+document.querySelectorAll('a, button, .depth-content, .depth-link, .depth-project-item').forEach(el => {
   el.addEventListener('mouseenter', () => {
     cursor.style.width = '18px';
     cursor.style.height = '18px';
@@ -117,17 +117,14 @@ const barObserver = new IntersectionObserver(entries => {
 
 document.querySelectorAll('.skill-card').forEach(c => barObserver.observe(c));
 
-/* ---------- PROJECT FILTER ---------- */
-document.querySelectorAll('.filter-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    const filter = btn.dataset.filter;
-    document.querySelectorAll('.project-card').forEach(card => {
-      const match = filter === 'all' || card.dataset.cat === filter;
-      card.style.opacity    = match ? '1' : '0.25';
-      card.style.transform  = match ? '' : 'scale(0.97)';
-      card.style.transition = 'opacity 0.35s, transform 0.35s';
-    });
+/* ---------- DEPTH GAUGE TIMELINE ---------- */
+const depthSteps = document.querySelectorAll('.depth-step');
+const depthObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+    }
   });
-});
+}, { threshold: 0.2 });
+
+depthSteps.forEach(step => depthObserver.observe(step));
